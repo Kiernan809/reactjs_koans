@@ -37,6 +37,42 @@ var React = require("react");
 //
 // Extra Task: Extract creation (`addGroceryItem`) of grocery to external service.
 
+class NewGrocery extends React.Component {
+  constructor(props) {
+    super(props) ;
+    this.state = {
+      newGroceryName: ""
+    } ;
+  }
+
+  inputChanged(event) {
+    this.setState({ newGroceryName: event.target.value });
+  }
+
+  addGroceryItem() {
+    if(this.state.newGroceryName) {
+      let newGroceryItem = { name: this.state.newGroceryName };
+
+      this.props.onComplete(newGroceryItem);
+    }
+  }
+
+  render() {
+    let newProductInput,
+        newProductAddButton ;
+
+    newProductInput = <input className='new-item' type="text" onChange={this.inputChanged.bind(this)}/>;
+    newProductAddButton = <button className='add-product' onClick={this.addGroceryItem.bind(this)}>Add new Product</button>;
+
+    return (
+      <div>
+        {newProductInput}
+        {newProductAddButton}
+      </div>
+    )
+  }
+}
+
 class GroceryList extends React.Component {
   constructor(props) {
     super(props);
@@ -50,22 +86,11 @@ class GroceryList extends React.Component {
       newGroceryName: ""
     };
 
-    this.addGroceryItem = this.addGroceryItem.bind(this);
     this.clearList = this.clearList.bind(this);
-    this.inputChanged = this.inputChanged.bind(this);
   }
 
-  inputChanged(event) {
-    this.setState({ newGroceryName: event.target.value });
-  }
-
-  addGroceryItem() {
-    if(this.state.newGroceryName) {
-      let newGroceryItem = { name: this.state.newGroceryName };
-      this.setState({
-        groceries: this.state.groceries.concat([newGroceryItem])
-      });
-    }
+  addGroceryItem(item) {
+    this.setState({ groceries: this.state.groceries.concat([item]) });
   }
 
   clearList(event) {
@@ -75,7 +100,6 @@ class GroceryList extends React.Component {
   // Fill the definition of the following method to allow completing each item
   // Hint 1: Pay attention to the element's index on the list.
   toggleGroceryCompleteness(groceryIndex) {
-    // Put your code here
     let groceriesCopy = this.state.groceries ;
     let item = groceriesCopy[groceryIndex] ;
     item.completed = !item.completed ;
@@ -84,9 +108,8 @@ class GroceryList extends React.Component {
 
   render() {
     let groceriesComponents = [],
-        newProductInput,
-        newProductAddButton,
         clearListButton;
+
     for(var index = 0; index < this.state.groceries.length; index++) {
       groceriesComponents.push(
           <GroceryListItem
@@ -95,8 +118,6 @@ class GroceryList extends React.Component {
       );
     }
 
-    newProductInput = <input className='new-item' type="text" onChange={this.inputChanged}/>;
-    newProductAddButton = <button className='add-product' onClick={this.addGroceryItem}>Add new Product</button>;
     clearListButton = <button className='clear-list' onClick={this.clearList}>Clear the List</button>;
 
     return (
@@ -104,8 +125,9 @@ class GroceryList extends React.Component {
         <ul>
           {groceriesComponents}
         </ul>
-        {newProductInput}
-        {newProductAddButton}
+
+
+        <NewGrocery onComplete={this.addGroceryItem.bind(this)} />
         {clearListButton}
       </div>
     );
