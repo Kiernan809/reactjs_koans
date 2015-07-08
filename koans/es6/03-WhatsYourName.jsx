@@ -1,8 +1,8 @@
 var React = require("react");
 
-// Let's get to the most important feature of React.js - Reactive State.
+// Let's get to the most important feature of React.js - reactive state.
 //
-// Each React component has 2 important hashes:
+// Each React component contains 2 important hashes:
 // * Properties - we pass these values when we create component. They don't
 //                change over entire life of the component.
 // * State      - these values can change over entire life of the component.
@@ -22,7 +22,7 @@ var React = require("react");
 //
 // You have two tasks to complete in this exercise:
 // Task #1: Someone left broken code in the `onNameChange` method. It is always triggered
-//          after changing the value of `username` input. This method takes
+//          after changing the value of `name` input. This method takes
 //          event as its only argument. You need to retrieve the input value from
 //          that object and update the `name` field in the `state` object.
 // Warning: Do not try to change the `render` structure.
@@ -53,7 +53,7 @@ class WhatsYourName extends React.Component {
   // If we don't set an initial state, we will get an error. It's impossible to fetch
   // an object key from `null`.
   //
-  // Think about it: you can set username from a cookie on component initialization!
+  // Think about it: you can set name from a cookie on component initialization!
   //                 What else could you do here?
 
   constructor(props) {
@@ -70,7 +70,7 @@ class WhatsYourName extends React.Component {
   // object thrown by React on actions like `click`, `change` etc.
   //
   // You need to correct the call of `setState` method. Just try to set
-  // the `username` field to the value passed in event.
+  // the `name` field to the value passed in event.
   //
   // Hint: use `console.log` to check `event.target`. You will find text
   //       entered to the input there.
@@ -83,7 +83,7 @@ class WhatsYourName extends React.Component {
     return (
       <div>
         <p>Hello {this.state.name}</p>
-        <input type="text" name="username" onChange={this.onNameChange} />
+        <input type="text" name="name" onChange={this.onNameChange} />
       </div>
     );
   }
